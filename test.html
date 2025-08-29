@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textarea 按钮布局示例</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+    background: #f0f0f0;
+  }
+
+  .container {
+    position: relative;
+    width: 400px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 10px;
+    max-height: 200px;
+    resize: none;
+    padding-top: 16px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 16px;
+    overflow: hidden;
+  }
+
+  button {
+    position: absolute;
+    right: 10px;
+    top: 30%;
+    transform: translateY(-50%);
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  /* 多行时按钮固定右下角 */
+  textarea.multi-line + button {
+    top: auto;
+    bottom: 10px;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <textarea id="input" placeholder="请输入内容..."></textarea>
+  <button id="send">发送</button>
+</div>
+
+<script>
+  const textarea = document.getElementById('input');
+  const button = document.getElementById('send');
+
+  function adjustButton() {
+    // 根据内容高度判断是否多行
+    if (textarea.scrollHeight > textarea.clientHeight) {
+      textarea.classList.add('multi-line');
+    } else {
+      textarea.classList.remove('multi-line');
+    }
+  }
+
+  textarea.addEventListener('input', () => {
+    // 自动增长高度
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+
+    adjustButton();
+  });
+
+  // 初始化
+  adjustButton();
+</script>
+
+</body>
+</html>
